@@ -18,7 +18,7 @@ Since the gateway can be referred many times in the program then the names conce
 - If 2nd argument is missing, a property value is gotten, for example *Â¤::_('addr.street')*. 
 - Otherwise new value is assigned to a property, for example *Â¤::_('addr.street','Elm')*. 
 - The property path elements must be property names (not associative array keys).
-- Only path's terminal value can be overloaded by *get/set* magic methods;
+- Only path's terminal value can be overloaded by *get/set* magic methods; 
 - The workarea is accessible via *Â¤::$_*  public property.
 
 **Note.** A more rough way would be to implement all the common properties via *Â¤::$_* but it makes properties vulnerable for occasional overwritings.
