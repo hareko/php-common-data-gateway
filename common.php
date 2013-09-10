@@ -40,7 +40,8 @@ class Common {
         return null; /* undefined node */
       }
     }
-    return $ptr->$pth[$i];     /* get a value */
+// return isset($ptr->$pth[$i]) ? $ptr->$pth[$i] : null;     /* get a value - needs __isset() */
+   return $ptr->$pth[$i];     /* get a value */
   }
 
   public function SetProperty($pth, $val)
