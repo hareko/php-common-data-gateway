@@ -39,6 +39,6 @@ The following files are included:
 2. *common.php* - the common data class skeleton; contains necessary methods and properties for the gateway class, and some data for the example;
 3. *example.php* - demonstrates the common gateway functionality.
 
-The common data gateway is implemented in vRegistry solution (see [vregistrator.com]).
+The common data gateway is implemented in vRegistry solution (see [vregistry.com]).
 
-  [vregistrator.com]: http://vregistrator.com/hlp/en
+  [vregistry.com]: http://vregistry.com/hlp/en
