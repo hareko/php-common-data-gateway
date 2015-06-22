@@ -16,48 +16,71 @@ class Common {
   protected $prop;        /* common properties */
   protected $temp;        /* common temporary data */
 
-  public function __construct(&$tmp)
-  /*
+  /**
    * set up properties and temporary structures
-   * in:  tmp -- gateway workarea
-   */ {
+   * @param void $tmp -- gateway workarea
+   */
+  public function __construct(&$tmp) {
     $this->prop = new stdClass();   /* create a properties structure */
     $this->temp = new stdClass();   /* init temporary data */
     $tmp = $this->temp;             /* point workarea to temporary data */
   }
 
-  public function GetProperty($pth)
-  /*
+  /**
    * get common property value
-   * in:  pth -- property path array
-   * out: property's value
-   */ {
-    $ptr = & $this->prop;
-    for ($i = 0; $i < count($pth) - 1; $i++) {/* move to terminal's parent */
-      if (isset($ptr->$pth[$i])) {
-        $ptr = & $ptr->$pth[$i];  /* get next node */
+   * @param array $pth -- property path
+   * @return mixed property value
+   */ 
+  public function _get($pth) {
+    $ptr = & $this->prop; /* point to the properties */
+    for ($i = 0; $i < count($pth) - 1; $i++) {/* loop to terminal parent */
+      if (is_array($ptr) && isset($ptr[$pth[$i]])) {
+        $ptr = & $ptr[$pth[$i]];  /* next array element */
+      } else if (is_object($ptr) && isset($ptr->$pth[$i])) {
+        $ptr = & $ptr->$pth[$i];  /* next object element */
       } else {
-        return null; /* undefined node */
+        break;
       }
     }
-// return isset($ptr->$pth[$i]) ? $ptr->$pth[$i] : null;     /* get a value - needs __isset() */
-   return $ptr->$pth[$i];     /* get a value */
+    if (is_array($ptr) && isset($ptr[$pth[$i]])) {
+      $val = $ptr[$pth[$i]];     /* get array element value */
+    } else if (is_object($ptr) && isset($ptr->$pth[$i])) {
+      $val = $ptr->$pth[$i];    /* get object element value */
+    } else {
+      $val = null;  /* no value */
+    }
+    return $val;
   }
 
-  public function SetProperty($pth, $val)
-  /*
+  /**
    * set common property value
-   * in:  pth -- property path array
-   *      val -- value to set
-   */ {
-    $ptr = & $this->prop;    /* point to properties structure */
-    for ($i = 0; $i < count($pth) - 1; $i++) {/* move to terminal's parent */
-      if (!isset($ptr->$pth[$i])) {
-        $ptr->$pth[$i] = new stdClass();  /* set default if node does not exist */
+   * @param array $pth -- property path
+   * @param mixed $val -- value to set
+   * @return mixed property value
+   */ 
+  public function _set($pth, $val){
+    $ptr = & $this->prop;    /* point to the properties */
+    for ($i = 0; $i < count($pth) - 1; $i++) {/* loop to terminal parent */
+      if (is_array($ptr)) {
+        if (!isset($ptr[$pth[$i]])) {
+          $ptr[$pth[$i]] = array();  /* set array if node does not exist */
+        }
+        $ptr = & $ptr[$pth[$i]];
+      } else {
+        if (!isset($ptr->$pth[$i])) {
+          $ptr->$pth[$i] = new stdClass();  /* set object if node does not exist */
+        }
+        $ptr = & $ptr->$pth[$i];
       }
-      $ptr = & $ptr->$pth[$i]; /* get next node */
     }
-    $ptr->$pth[$i] = $val;     /* set a value */
+    if (is_array($ptr)) {
+      $ptr[$pth[$i]] = $val;    /* set array element value */
+    } else if (is_object($ptr)){
+      $ptr->$pth[$i] = $val;    /* set object element value */
+    }else {
+      $val = null;
+    }
+    return $val;
   }
 
   /* sample method */
@@ -82,4 +105,3 @@ class Msg {
 
 }
 
-?>
