@@ -6,22 +6,22 @@ There is a way described here of how to organize common data to be available thr
 How it works
 ------------
 
-All the common accessing is collected into one point. Thru this point - a gateway - all the global usings can be controlled and observed. The common gateway is realized by two classes: the gateway itself, containing some static properties and methods, and the common data class, holding common methods and properties. Common methods are called from the gateway via *__callStatic()* magic method. Common properties are accessed via property path methods. Common work area is supplied also for temporary and/or time-critical data. The methods does not check for errors - it's presumed to be an error handling responsibility.
+All the common accessing is collected into one point. Thru this point - a gateway - all the global usings can be controlled and observed. The common gateway is realized by two classes: the gateway itself, containing some static properties and methods, and the common data class, holding common methods and properties. Common methods are called from the gateway via *__callStatic()* magic method. Common properties are accessed via property path methods. Common work area is supplied also for temporary and/or time-critical data. The methods do not check for errors - it's presumed to be an error handling responsibility.
 
 Since the gateway can be referred many times in the program then the names concerning a gateway are selected to be short.
 
-- The 'Â¤' as well-distinguishable is used for a gateway classname and '_' to access common properties. 
-- The gateway is activated by *Â¤::_Init()* method (see *example.php*). 
-- The common methods are called simply using the Â¤:: prefix, for example: *Â¤::Startup(), Â¤::Convert($txt)* etc. 
-- The properties are accessed via *Â¤::_()* method having 1st argument as a property path string. 
+- The '¤' as well-distinguishable is used for a gateway classname and '_' to access common properties. 
+- The gateway is activated by *¤::_Init()* method (see *example.php*). 
+- The common methods are called simply using the ¤:: prefix, for example: *¤::Startup(), ¤::Convert($txt)* etc. 
+- The properties are accessed via *¤::_()* method having 1st argument as a property path string. 
 - The path separator is '.' by default and can be changed. 
-- If 2nd argument is missing, a property value is gotten, for example *Â¤::_('addr.street')*. 
-- Otherwise new value is assigned to a property, for example *Â¤::_('addr.street','Elm')*. 
-- The property path elements must be property names (not associative array keys).
-- Only path's terminal value can be overloaded by *get/set* magic methods; 
-- The workarea is accessible via *Â¤::$_*  public property.
+- If 2nd argument is missing, a property value is gotten, for example *¤::_('addr.street')*. 
+- Otherwise new value is assigned to a property, for example *¤::_('addr.street','Elm')*. 
+- The property path member must be either associative array key or object element name.
+- Only path's terminal value can be overloaded by *get/set* magic methods;
+- The workarea is accessible via *¤::$_*  public property.
 
-**Note.** A more rough way would be to implement all the common properties via *Â¤::$_* but it makes properties vulnerable for occasional overwritings.
+**Note.** A more rough way would be to implement all the common properties via *¤::$_* but it makes properties vulnerable for occasional over-writings.
 
 How it fits OOP
 ---------------
@@ -39,6 +39,15 @@ The following files are included:
 2. *common.php* - the common data class skeleton; contains necessary methods and properties for the gateway class, and some data for the example;
 3. *example.php* - demonstrates the common gateway functionality.
 
-The common data gateway is implemented in vRegistry solution (see [vregistry.com]).
+The common data gateway is implemented in vRegistry solutions (see [vregistry.com]).
 
-  [vregistry.com]: http://vregistry.com/hlp/en
+ChangeLog
+---------
+
+20 June 2015
+
+- *common.php*
+ - _get/_set methods to allow associative array keys in the property path
+
+  [vregistry.com]: http://vregistry.com
+
