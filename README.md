@@ -49,5 +49,10 @@ ChangeLog
 - *common.php*
  - _get/_set methods to allow associative array keys in the property path
 
+07 October 2016
+
+- *common.php*
+ - corrections for the php7 compatibility
+
   [vregistry.com]: http://vregistry.com
 
