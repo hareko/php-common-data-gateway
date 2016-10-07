@@ -36,16 +36,16 @@ class Common {
     for ($i = 0; $i < count($pth) - 1; $i++) {/* loop to terminal parent */
       if (is_array($ptr) && isset($ptr[$pth[$i]])) {
         $ptr = & $ptr[$pth[$i]];  /* next array element */
-      } else if (is_object($ptr) && isset($ptr->$pth[$i])) {
-        $ptr = & $ptr->$pth[$i];  /* next object element */
+      } else if (is_object($ptr) && isset($ptr->{$pth[$i]})) {
+        $ptr = & $ptr->{$pth[$i]};  /* next object element */
       } else {
         break;
       }
     }
     if (is_array($ptr) && isset($ptr[$pth[$i]])) {
       $val = $ptr[$pth[$i]];     /* get array element value */
-    } else if (is_object($ptr) && isset($ptr->$pth[$i])) {
-      $val = $ptr->$pth[$i];    /* get object element value */
+    } else if (is_object($ptr) && isset($ptr->{$pth[$i]})) {
+      $val = $ptr->{$pth[$i]};    /* get object element value */
     } else {
       $val = null;  /* no value */
     }
@@ -67,16 +67,16 @@ class Common {
         }
         $ptr = & $ptr[$pth[$i]];
       } else {
-        if (!isset($ptr->$pth[$i])) {
-          $ptr->$pth[$i] = new stdClass();  /* set object if node does not exist */
+        if (!isset($ptr->{$pth[$i]})) {
+          $ptr->{$pth[$i]} = new stdClass();  /* set object if node does not exist */
         }
-        $ptr = & $ptr->$pth[$i];
+        $ptr = & $ptr->{$pth[$i]};
       }
     }
     if (is_array($ptr)) {
       $ptr[$pth[$i]] = $val;    /* set array element value */
     } else if (is_object($ptr)){
-      $ptr->$pth[$i] = $val;    /* set object element value */
+      $ptr->{$pth[$i]} = $val;    /* set object element value */
     }else {
       $val = null;
     }
